@@ -1,15 +1,12 @@
 import os
+import bcrypt
 
 from flask import Flask, session, render_template, request
 from flask_session import Session
-from flask.ext.bcrypt import Bcrypt
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
-
-# bcrypt for hashing passwords
-flask_bcrypt = Bcrypt(app)
 
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -29,6 +26,7 @@ db = scoped_session(sessionmaker(bind=engine))
 def index():
     return render_template("index.html")
 
+
 @app.route("/register", methods=["POST"])
 def register():
 
@@ -38,8 +36,8 @@ def register():
     password = request.form.get("pass1")
 
     #hash password
-    pw_hash = flask_bcrypt.generate_password_hash(password).decode("utf-8")
-    db.execute("INSERT INTO users ( email, username, pw_hash ) VALUES (:email, :username, :pw_hash)", 
+    pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    db.execute("INSERT INTO users ( email, username, password ) VALUES (:email, :username, :pw_hash)", 
     {"email":email, "username":username, "pw_hash":pw_hash})
     db.commit()
     return "registration successfull!"
