@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+ Project 01
+{% endblock title %}
+
+{% block body %}
+
+<!-- registration form -->
+<form name="usr_registration" action={{ url_for( "register" ) }} method="POST" onsubmit="return validateForm()">
+
+    <input type="email" name="email" id="usr_email" placeholder="Email">
+    <br>
+    <input type="text" name="username" id="usr_name" placeholder="Username">
+    <br>
+    <input type="password" name="pass1" id="usr_pass1" placeholder="Password">
+    <br>
+    <input type="password" name="pass2" id="usr_pass2" placeholder="Confirm Password">
+    <br>
+    <button type="submit" name="submit" id="usr_signup">SignUp</button>
+</form>
+
+{% endblock body %}
