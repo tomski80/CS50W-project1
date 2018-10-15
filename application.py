@@ -37,7 +37,7 @@ def register():
 
     #hash password
     pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-    db.execute("INSERT INTO users ( email, username, password ) VALUES (:email, :username, :pw_hash)", 
+    db.execute("INSERT INTO users ( useremail, username, userpass ) VALUES (:email, :username, :pw_hash)", 
     {"email":email, "username":username, "pw_hash":pw_hash})
     db.commit()
     return "registration successfull!"
